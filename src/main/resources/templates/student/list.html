@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>eRegistrar</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/master.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top navbar-custom">
+    <div>
+
+        <div class="container-fluid" style="float: left">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">eRegistrar</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li ><a href="/eregistrar/home">Home</a></li>
+                <li class="active"><a href="/eregistrar/student/list">Students</a></li>
+                <li><a href="/eregistrar/student/new">Add New Student</a></li>
+            </ul>
+
+        </div>
+        <div style="float: right">
+            <form class="navbar-form navbar-left" action="/eregistrar/student/search"  method="post">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" name="search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div style="padding-top:1em;" class="container">
+
+    <h3 style="padding-top: 70px">List of All Students</h3>
+    <hr/>
+
+
+    <p>&nbsp;</p>
+    <div style="font-size: 1em">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Student Number</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Middle Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">International</th>
+                <th scope="col">CGPA</th>
+                <th scope="col">Enrollment Date</th>
+                <th scope="col">Actions</th>
+                <th scope="col">&nbsp;</th>
+                <th scope="col">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="student,iterStat : ${students}">
+                <th scope="row" th:text="${iterStat.count}"></th>
+                <td th:text="${student.studentNumber}"></td>
+                <td th:text="${student.firstName}"></td>
+                <td th:text="${student.middleName}"></td>
+                <td th:text="${student.lastName}"></td>
+                <td th:text="${student.isInternational}"></td>
+                <td th:text="${student.cumulativeGradePointAverage}"></td>
+                <td th:text="${student.enrollmentDate}"></td>
+
+                <td><a th:href="@{'/elibrary/student/edit/{studentId}'(studentId=${student.studentId})}">Edit</a></td>
+                <td>
+                    <a data-toggle="modal" data-target="#confirmDeleteBookModal" th:href="@{'/elibrary/student/delete/' + ${student.studentId}}">Delete</a>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div class="modal fade" id="confirmDeleteBookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you wish to delete this Student data?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<hr/>
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">Kedi Wagobera Edgar : : : CS425-SWE</span>
+        <span style="float:right;" class="text-muted">&copy; August 2019</span>
+    </div>
+</footer>
+<hr/>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+

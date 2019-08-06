@@ -1,0 +1,14 @@
+-- master.css --
+
+@charset "utf-8";
+
+.navbar-custom {
+    color: #ffffff;
+    background-color: #31ccb4;
+}
+body {
+    margin-bottom: 50px;
+}
+tr.datarow {
+    cursor: pointer;
+}
