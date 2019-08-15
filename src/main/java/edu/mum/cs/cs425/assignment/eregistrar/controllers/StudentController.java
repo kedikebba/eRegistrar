@@ -18,34 +18,23 @@ public class StudentController{
     @Autowired
     public StudentService studentService;
 
-    //@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-//    public StudentController(StudentService studentService){
-//        this.studentService = studentService;
-//    }
-
     @GetMapping(value = {"/eregistrar/student/list"})
-    public ModelAndView listStudents(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("students", studentService.listStudents());
-        modelAndView.setViewName("student/list");
-        return modelAndView;
+    public String listStudents(Model model){
+        model.addAttribute("students",studentService.listStudents() );
+        return "student/list";
     }
-
+    @GetMapping(value = {"/eregistrar/student/search"})
+    public String searchStudent(@RequestParam("search") String search,
+                                Model model) {
+        List<Student> students = studentService.searchStudents(search);
+        model.addAttribute("students",students)         ;
+        return "student/list";
+    }
     @GetMapping(value = {"/eregistrar/student/new"})
     public String displayNewStudentForm(Model model){
         model.addAttribute("student", new Student());
         return "student/new";
     }
-    @PostMapping(value = {"/eregistrar/student/search"})
-    public String searchStudent(@RequestParam("search") String search,
-                             Model model) {
-        List<Student> students = studentService.searchStudents(search);
-        model.addAttribute("students",students)         ;
-
-        return "student/list";
-    }
-
-
     @PostMapping(value={"/eregistrar/student/new"})
     public String addNewStudent(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){
@@ -57,7 +46,7 @@ public class StudentController{
     }
 
     @GetMapping(value = "/eregistrar/student/edit/{studentId}")
-    public String editStudent(@PathVariable Long studentId, Model model){
+    public String editStudent(@PathVariable("studentId") Long studentId, Model model){
         Student student = studentService.getStudentByID(studentId);
         if(student!=null){
             model.addAttribute("student", student);
@@ -65,6 +54,7 @@ public class StudentController{
         }
         return "student/list";
     }
+
 
     @PostMapping(value = "/eregistrar/student/edit")
     public String updateStudent(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult, Model model){
@@ -77,9 +67,9 @@ public class StudentController{
     }
 
     @GetMapping(value = {"/eregistrar/student/delete/{studentId}"})
-    public String deleteStudent(@PathVariable Long studentId, Model model){
+    public String deleteStudent(@PathVariable("studentId") Long studentId, Model model){
         studentService.deleteStudentByID(studentId);
-        return "redirect: /eregistrar/student/list";
+        return "redirect:/eregistrar/student/list";
     }
 
 }

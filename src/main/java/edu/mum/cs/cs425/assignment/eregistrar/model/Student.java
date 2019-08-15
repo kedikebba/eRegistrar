@@ -105,11 +105,6 @@ public class Student {
 
     public void setIsInternational(String international) {
 
-//        boolean returnValue = false;
-//        if ("1".equalsIgnoreCase(international) || "Yes".equalsIgnoreCase(international) ||
-//                "true".equalsIgnoreCase(international) || "on".equalsIgnoreCase(international))
-//            returnValue = true;
-       // return returnValue;
         this.isInternational = international;
     }
 
